@@ -1,0 +1,18 @@
+{
+  "name": "solo-serial-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && npm run build:app && npm run build:lib",
+    "build:app": "vite build",
+    "build:lib": "vite build --config vite.lib.config.ts",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/w3c-web-serial": "^1.0.6",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}

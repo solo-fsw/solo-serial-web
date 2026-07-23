@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solo Serial — Web Interface</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────────────────────── -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="app-title">Solo Serial</span>
+      <div class="status-pill">
+        <span id="status-dot" data-state="disconnected"></span>
+        <span id="status-text">Disconnected</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button id="connect-btn"    class="btn btn-primary">Connect device</button>
+      <button id="disconnect-btn" class="btn btn-outline" hidden>Disconnect</button>
+    </div>
+  </header>
+
+  <!-- ── Browser warning ─────────────────────────────────────────────────────── -->
+  <div id="no-webserial" class="banner banner-warn" hidden>
+    ⚠ Web Serial is not available. Use Chrome, Edge, or Opera on desktop, and ensure
+    the site is served over HTTPS or localhost.
+  </div>
+
+  <!-- ── Main layout ─────────────────────────────────────────────────────────── -->
+  <main class="app-main">
+
+    <!-- Left column: device info + commands -->
+    <div class="left-col">
+
+      <section class="card">
+        <h2 class="card-title">Device Info</h2>
+        <div id="info-panel">
+          <p class="placeholder">Connect to a device to see info.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Commands</h2>
+        <div id="commands-panel">
+          <p class="placeholder">Connect to a device to see commands.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right column: communication console -->
+    <div class="right-col">
+      <section class="card console-card">
+        <div class="card-toolbar">
+          <h2 class="card-title">Console</h2>
+          <button id="console-clear" class="btn btn-ghost btn-sm">Clear</button>
+        </div>
+        <div class="console-input-row">
+          <select
+            id="console-data-type"
+            class="console-data-type"
+            aria-label="Data mode payload type"
+            hidden
+          >
+            <option value="string">String</option>
+            <option value="hex">Hex bytes</option>
+            <option value="uint8">UInt8 byte</option>
+          </select>
+          <input
+            id="console-command-input"
+            class="console-command-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Type command line, e.g. ping or setLabel `hello world`"
+            aria-label="Command line input"
+          />
+          <button id="console-send" class="btn btn-outline btn-sm" disabled>Send</button>
+        </div>
+        <div id="console-output" class="console-output" role="log" aria-live="polite"></div>
+      </section>
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

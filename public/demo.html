@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoloSerial — Library Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1e293b;
+      background: #f8fafc;
+      padding: 32px 24px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    h2 { font-size: 16px; font-weight: 600; }
+    p  { color: #475569; margin-bottom: 12px; }
+
+    .card {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .subtitle { color: #64748b; font-size: 13px; margin-bottom: 20px; }
+
+    /* button used in the programmatic demo */
+    .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 1px solid #2563eb;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .demo-btn:hover:not(:disabled) { background: #1d4ed8; }
+    .demo-btn:disabled { opacity: 0.5; cursor: default; }
+
+    pre {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+      font-size: 12px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 48px;
+    }
+
+    code {
+      font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+      font-size: 12px;
+      background: #f1f5f9;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .warn-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .warn-box.visible { display: block; }
+  </style>
+</head>
+<body>
+
+  <h1>SoloSerial Demos</h1>
+  <p class="subtitle">
+    This page shows how to use the SoloSerial library, which can be loaded using a
+    <code>&lt;script&gt;</code> block; either directly from GitHub Pages, or from a local copy.
+  </p>
+
+  <div id="no-webserial-warning" class="warn-box">
+    ⚠ Web Serial is not available in this browser.
+    Use Chrome, Edge, or Opera on desktop and serve over HTTPS or localhost.
+  </div>
+
+  <!-- ── 1. Widget demo ─────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>Widget</h2>
+    <p>
+      <code>SoloSerial.createWidget(parent, options)</code> renders a
+      self-contained connect/disconnect button with device info.
+      It auto-connects when a previously paired device is found.
+    </p>
+
+    <div id="widget-host"></div>
+  </div>
+
+  <!-- ── 2. Programmatic demo ───────────────────────────────────────────── -->
+  <div class="card">
+    <h2>Programmatic connect</h2>
+    <p>
+      <code>SoloSerial.connect(options)</code> connects, probes the device,
+      and returns <code>{ device, info, state }</code>.
+      Must be called from a user-gesture handler.
+    </p>
+
+    <button id="prog-connect" class="demo-btn">Connect &amp; Ping</button>
+    <pre id="prog-output">Waiting for connection…</pre>
+  </div>
+
+  <!-- ── 3. Code example ────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>Minimal integration snippet</h2>
+    <p>Drop this into any webpage to add a solo-serial connect widget:</p>
+<pre style="background:#1e293b">&lt;!-- Load the library (major.minor-version URL stays stable within v0.1.x) --&gt;
+&lt;script src="https://solo-fsw.github.io/solo-serial-web/lib/v0.1/solo-serial.js"&gt;&lt;/script&gt;
+
+&lt;div id="solo-panel"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // Create the widget — no framework required.
+  const { device } = SoloSerial.createWidget(
+    document.getElementById('solo-panel'),
+    {
+      // Optional: only show devices matching this vendor ID.
+      // filters: [{ usbVendorId: 0x2341 }],
+
+      onConnect(device, info, state) {
+        console.log('Connected to', info.name, '— firmware', info.firmware_version);
+        // Send a command:  device.sendCommand('myCommand', 'arg1');
+      },
+      onDisconnect() {
+        console.log('Device disconnected.');
+      },
+    }
+  );
+&lt;/script&gt;</pre>
+  </div>
+
+  <!--
+    Load the library.
+    ‣ When served from GH Pages the path below resolves to:
+        https://<org>.github.io/<repo>/lib/v0.1/solo-serial.js
+    ‣ For local testing after a full build (npm run build) open
+        dist/demo.html  directly.
+  -->
+  <script src="./lib/v0.1/solo-serial.js"></script>
+
+  <script>
+    // ── WebSerial check ──────────────────────────────────────────────────────
+    if (!('serial' in navigator)) {
+      document.getElementById('no-webserial-warning').classList.add('visible');
+    }
+
+    // ── 1. Widget demo ───────────────────────────────────────────────────────
+    SoloSerial.createWidget(
+      document.getElementById('widget-host'),
+      {
+        // Uncomment to restrict to a specific vendor (Arduino = 0x2341):
+        // filters: [{ usbVendorId: 0x2341 }],
+        width: '260px',
+        onConnect(device, info, state) {
+          console.log('[widget] connected', info);
+        },
+        onDisconnect() {
+          console.log('[widget] disconnected');
+        },
+        onError(err) {
+          console.error('[widget] error', err);
+        },
+      }
+    );
+
+    // ── 2. Programmatic demo ─────────────────────────────────────────────────
+    const progBtn    = document.getElementById('prog-connect');
+    const progOutput = document.getElementById('prog-output');
+    let   progDevice = null;
+
+    progBtn.addEventListener('click', async () => {
+      // Disconnect if already connected
+      if (progDevice && progDevice.isConnected) {
+        await progDevice.disconnect();
+        progDevice = null;
+        progBtn.textContent = 'Connect & Ping';
+        progOutput.textContent = 'Disconnected.';
+        return;
+      }
+
+      progBtn.disabled = true;
+      progOutput.textContent = 'Connecting…';
+
+      try {
+        const { device, info, state } = await SoloSerial.connect({
+          // filters: [{ usbVendorId: 0x2341 }],
+        });
+        progDevice = device;
+        progBtn.textContent = 'Disconnect';
+
+        progOutput.textContent =
+          'Connected!\n\nDevice info:\n' + JSON.stringify(info, null, 2) +
+          '\n\nState:\n' + JSON.stringify(state, null, 2);
+
+        // Listen for async events from the device
+        device.onEvent(payload => {
+          progOutput.textContent += '\n\nEvent: ' + payload;
+        });
+
+        device.onDisconnect(() => {
+          progDevice = null;
+          progBtn.textContent = 'Connect & Ping';
+          progOutput.textContent += '\n\nDevice disconnected.';
+          progBtn.disabled = false;
+        });
+
+        // Send a ping command as a quick test
+        const pingResp = await device.sendCommand('ping');
+        progOutput.textContent +=
+          '\n\nPing response:\n' + JSON.stringify(pingResp, null, 2);
+
+      } catch (err) {
+        progOutput.textContent = 'Error: ' + (err.message || String(err));
+        progDevice = null;
+        progBtn.textContent = 'Connect & Ping';
+      } finally {
+        progBtn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>

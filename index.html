@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solo Serial — Web Interface</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      text-align: center;
+    }
+    h1 { font-size: 2.5em; margin-bottom: 0.5em; font-weight: 700; }
+    .subtitle { font-size: 1.1em; color: #64748b; margin-bottom: 1.5em; }
+    .description {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5em;
+      margin-bottom: 2em;
+      text-align: left;
+      color: #475569;
+    }
+    .links {
+      display: flex;
+      gap: 1em;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    a {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border: 1px solid #2563eb;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: #2563eb;
+      border: 1px solid #2563eb;
+    }
+    .btn-secondary:hover {
+      background: #eff6ff;
+      transform: translateY(-2px);
+    }
+    .footer {
+      margin-top: 2em;
+      font-size: 0.9em;
+      color: #94a3b8;
+    }
+    .footer a {
+      color: #2563eb;
+      text-decoration: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Solo Serial</h1>
+    <p class="subtitle">USB debug and control for embedded devices</p>
+    
+    <div class="description">
+      <p>A browser-based debug and control panel for devices running the solo-serial firmware library. Communicates directly over USB using the Web Serial API — no drivers, no server, no installation required.</p>
+    </div>
+
+    <div class="links">
+      <a href="./console.html" class="btn-primary">Open Console</a>
+      <a href="./demo.html" class="btn-secondary">View Demo</a>
+    </div>
+
+    <div class="footer">
+      <p><a href="https://github.com/solo-fsw/solo-serial-web">View on GitHub</a> · <a href="https://github.com/solo-fsw/solo-serial-web#readme">Documentation</a></p>
+    </div>
+  </div>
+</body>
+</html>
