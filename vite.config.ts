@@ -6,6 +6,7 @@ export default defineConfig({
   base: "/solo-serial-web/",
 
   build: {
+    sourcemap: false,
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),

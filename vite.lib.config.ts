@@ -55,6 +55,6 @@ export default defineConfig({
 
     // Keep the source readable for debugging; tree-shake dead code.
     minify:     true,
-    sourcemap:  true,
+    sourcemap:  false,
   },
 });
